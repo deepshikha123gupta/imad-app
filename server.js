@@ -4,8 +4,8 @@ var path = require('path');
 
 var app = express();
 app.use(morgan('combined'));
-
-var articleone = {
+var articles = {
+   'article-one' : {
     title:'article-one.html',
     heading:'Article-One',
     date:'March 30 , 2018',
@@ -23,7 +23,36 @@ var articleone = {
                This is the content for my first article.This is the content for my first article.This is the content for my first article.
                This is the content for my first article.This is the content for my first article.This is the content for my first article.</p>`
     
+},
+   'article-two' : {
+    title:'article-two.html',
+    heading:'Article-Two',
+    date:'March 31 , 2018',
+    content:`
+           <p>This is the content for my first article.This is the content for my first article.This is the content for my first article.
+               This is the content for my first article.This is the content for my first article.This is the content for my first article.
+               This is the content for my first article.This is the content for my first article.This is the content for my first artic
+               .</p>
+               
+            <p>This is the content for my first article.This is the content for my first article.This is the content for my first article.
+               This is the content for my first article.This is the content for my first article.This is the content for my first article.
+               This is the content for my first article.This is the content for my first article.This is the content for my first article.</p>
+               `
+    
+},
+   'article-three' : {
+    title:'article-three.html',
+    heading:'Article-Three',
+    date:'March 29 , 2018',
+    content:`
+           <p>This is the content for my first article.This is the content for my first article.This is the content for my first article.
+               This is the content for my first article.This is the content for my first article.This is the content for my first article.
+               This is the content for my first article.This is the content for my first article.This is the content for my first artic
+               .</p>
+               `
+    
 }
+};
 function createTemplet(data) {
 var title =data.title;
 var heading =data.heading;
@@ -61,8 +90,9 @@ return htmlTemplet;
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
-app.get('/article-one', function (req, res) {
-  res.send(createTemplet(articleone));
+app.get('/:articleName', function (req, res) {
+    var articleName =req.param.articleName;
+  res.send(createTemplet(articles[articleName]));
 });
 app.get('/article-two', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
